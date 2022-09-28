@@ -3,8 +3,18 @@ import numpy as np
 from consts import RADIUS_EARTH
 
 
+def polar2cart(phi, lambda_, r):
+    xc = r * np.cos(phi) * np.cos(lambda_)
+    yc = r * np.cos(phi) * np.sin(lambda_)
+    zc = r * np.sin(phi)
+    return np.array([xc, yc, zc])
+
+
 def get_r(p_c):  # 地心距
-    return np.sqrt(p_c[0] ** 2 + p_c[1] ** 2 + p_c[2] ** 2)
+    if p_c.ndim == 1:
+        return np.sqrt(p_c[0] ** 2 + p_c[1] ** 2 + p_c[2] ** 2)
+    else:
+        return np.linalg.norm(p_c, axis=0)
 
 
 def get_phi(p_c):  # 地心纬度 [-pi/2, pi.2]
